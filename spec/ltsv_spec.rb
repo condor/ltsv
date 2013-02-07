@@ -24,6 +24,12 @@ describe LTSV do
           {:label1 => 'value1', :label2 => "value\\value"}
       end
 
+      it 'parses the value as-is when the backslash with a following ordinal character' do
+
+        LTSV.parse("label1:value1\tlabel2:value\\avalue").should ==
+          {:label1 => 'value1', :label2 => "value\\avalue"}
+      end
+
       it 'parses the empty value field as nil' do
         LTSV.parse("label1:\tlabel2:value2").should ==
           {:label1 => nil, :label2 => 'value2'}
