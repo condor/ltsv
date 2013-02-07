@@ -106,7 +106,7 @@ module LTSV
     return nil if !string || string == ''
 
     string.gsub!(/\\([a-z\\])/) do |m|
-      case m[1]
+      case $1
       when 'r'
         "\r"
       when 'n'
@@ -116,7 +116,7 @@ module LTSV
       when '\\'
         '\\'
       else
-        m[0]
+        m
       end
     end
   end
