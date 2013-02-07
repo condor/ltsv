@@ -3,8 +3,6 @@
 # Copyright (C) 2013 TOYODA Naoto.
 #
 #
-require "ltsv/version"
-
 module LTSV
   VERSION = "0.0.1"
 
