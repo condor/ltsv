@@ -28,7 +28,7 @@ module LTSV
     when String
       parse_string(io_or_string, options)
     when IO
-      parse_io(io_or_string = {})
+      parse_io(io_or_string, options)
     end
   end
 
@@ -86,7 +86,7 @@ module LTSV
   private
 
   def parse_io(io, options)#:nodoc:
-    io.map{|l|parse_string l, options}
+    io.map{|l|parse_string l.chomp, options}
   end
 
   def parse_string(string, options)#:nodoc:
