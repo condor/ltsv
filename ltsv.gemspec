@@ -5,7 +5,7 @@ require 'ltsv/version'
 
 Gem::Specification.new do |gem|
   gem.name          = "ltsv"
-  gem.version       = Ltsv::VERSION
+  gem.version       = LTSV::VERSION
   gem.authors       = ["condor"]
   gem.email         = ["condor1226@gmail.com"]
   gem.description   = %q{A Parser / Dumper for LTSV}
