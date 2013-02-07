@@ -35,6 +35,16 @@ describe LTSV do
           {:label1 => nil, :label2 => 'value2'}
       end
     end
+
+    context 'IO argment' do
+      it 'can parse labeled tab separated values into file' do
+        LTSV.parse(File.open("#{File.dirname(__FILE__)}/test.ltsv")).should ==
+          [{:label1 => 'value1', :label2 => 'value\\nvalue'},
+           {:label3 => 'value3', :label4 => 'value\\rvalue'},
+           {:label5 => 'value5', :label6 => 'value\\tvalue'},
+           {:label7 => 'value7', :label8 => 'value\\\\value'}] 
+      end
+    end
   end
 
   describe :load do
