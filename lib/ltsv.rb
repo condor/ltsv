@@ -6,6 +6,7 @@
 require "ltsv/version"
 
 module LTSV
+  VERSION = "0.0.1"
 
   # Parsing given stream or string.
   # If you specified a stream as the first argument,
