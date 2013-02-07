@@ -1,0 +1,69 @@
+require 'spec_helper'
+
+describe LTSV do
+
+  describe :parse do
+    context 'String argument' do
+      it 'can parse labeled tab separated values into hash' do
+        line = "label1:value1\tlabel2:value2"
+        LTSV.parse(line).should == {:label1 => 'value1', :label2 => 'value2'}
+      end
+
+      it 'can parse the value that contains escape sequences' do
+
+        LTSV.parse("label1:value1\tlabel2:value\\nvalue").should ==
+          {:label1 => 'value1', :label2 => "value\nvalue"}
+
+        LTSV.parse("label1:value1\tlabel2:value\\rvalue").should ==
+          {:label1 => 'value1', :label2 => "value\rvalue"}
+
+        LTSV.parse("label1:value1\tlabel2:value\\tvalue").should ==
+          {:label1 => 'value1', :label2 => "value\tvalue"}
+
+        LTSV.parse("label1:value1\tlabel2:value\\\\value").should ==
+          {:label1 => 'value1', :label2 => "value\\value"}
+      end
+
+      it 'parses the empty value field as nil' do
+        LTSV.parse("label1:\tlabel2:value2").should ==
+          {:label1 => nil, :label2 => 'value2'}
+      end
+    end
+  end
+
+  describe :load do
+  end
+
+  describe :dump do
+
+    specify 'dump into the format "label1:value1\tlabel2:value2"' do
+      LTSV.dump({:label1 => "value1", :label2 => "value2"}).should ==
+        "label1:value1\tlabel2:value2"
+    end
+
+    specify 'CRs, LFs, TABs, and backslashes in the value should be escaped' do
+      LTSV.dump({:label1 => "value\rvalue"}).should == "label1:value\\rvalue"
+      LTSV.dump({:label1 => "value\nvalue"}).should == "label1:value\\nvalue"
+      LTSV.dump({:label1 => "value\tvalue"}).should == "label1:value\\tvalue"
+      LTSV.dump({:label1 => "value\\value"}).should == "label1:value\\value"
+    end
+
+    specify ':s in the value should not be escaped' do
+      LTSV.dump({:label1 => "value:value"}).should == "label1:value:value"
+    end
+
+    specify 'should not fail when object to dump responds to :to_hash' do
+      target = Object.new
+      target.instance_eval do
+        def to_hash
+          {:label => 'value'}
+        end
+      end
+      LTSV.dump(target).should == "label:value"
+    end
+
+    specify 'fails when object to dump does not respond to :to_hash' do
+      lambda{LTSV.dump(Object.new)}.should raise_exception(ArgumentError)
+    end
+  end
+end
