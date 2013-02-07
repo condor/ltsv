@@ -86,14 +86,18 @@ module LTSV
   private
 
   def parse_io(io, options)#:nodoc:
-    io.map{|l|parse_string l, options}
+    io.map{|l|parse_line l, options}
   end
 
   def parse_string(string, options)#:nodoc:
+    string.chomp.split($/).map{|l|parse_line l, options}
+  end
+
+  def parse_line(line, options)#:nodoc:
     symbolize_keys = options.delete(:symbolize_keys)
     symbolize_keys = true if symbolize_keys.nil?
 
-    string.split("\t").inject({}) do |h, i|
+    line.split("\t").inject({}) do |h, i|
       (key, value) = i.split(':', 2)
       key = key.to_sym if symbolize_keys
       unescape!(value)
@@ -132,7 +136,7 @@ module LTSV
     value
   end
 
-  module_function :load, :parse, :dump, :parse_io, :parse_string, :unescape!, :escape
+  module_function :load, :parse, :dump, :parse_io, :parse_string, :parse_line, :unescape!, :escape
 
   class <<self
     private :parse_io, :parse_string, :unescape!, :escape
