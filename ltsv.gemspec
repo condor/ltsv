@@ -8,9 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = Ltsv::VERSION
   gem.authors       = ["condor"]
   gem.email         = ["condor1226@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{A Parser / Dumper for LTSV}
+  gem.summary       = %q{A Parser / Dumper for LTSV}
+  gem.homepage      = "https://github.com/condor/ltsv"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
