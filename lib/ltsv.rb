@@ -97,7 +97,7 @@ module LTSV
       (key, value) = i.split(':', 2)
       key = key.to_sym if symbolize_keys
       unescape!(value)
-      h[key] = value
+      h[key] = value.empty? ? nil : value
       h
     end
   end
