@@ -1,7 +1,29 @@
+# = ltsv - A parser / dumper for Labelled Tab-Separated Values(LTSV)
+#
+# Copyright (C) 2013 TOYODA Naoto.
+#
+#
 require "ltsv/version"
 
 module LTSV
 
+  # Parsing given stream or string.
+  # If you specified a stream as the first argument,
+  # this method behaves as same as #load.
+  #
+  # == Arguments:
+  # * _io_or_string_: a target to parse. Possible values are: String, IO.  
+  #   If you give the string value, it stands the content to parse.  
+  #   If you give the IO value, it stands the stream which provides the contents to parse.
+  # == Options:
+  # * _symbolize_keys_ : Whether the label will be available as symbol or not.  
+  #   Default value is true.
+  # * _encoding_ : The encoding of the stream given as the first argument.  
+  #   It is effective only when the first argument is an instance of IO.  
+  #   Default value: Encoding.default_external
+  # == Returns:
+  # * An instance of Hash : When you give the string as the first argument.
+  # * An Array of Hash : When you give the IO as the first argument.
   def parse(io_or_string, options = {})
     case io_or_string
     when String
@@ -11,6 +33,22 @@ module LTSV
     end
   end
 
+  # Parsing the content of the given stream or path.
+  # If you specified a stream as the first argument,
+  # this method behaves as same as #load.
+  #
+  # == Arguments:
+  # * _io_or_string_: a target to parse. Possible values are: String, IO.  
+  #   If you give the string value, it stands the path of the file to parse.  
+  #   If you give the IO value, it stands the stream which provides the contents to parse.  
+  #   *Note* : If you give the IO value, this method behaves like #parse.
+  # == Options:
+  # * _symbolize_keys_ : Whether the label will be available as symbol or not.  
+  #   Default value is true.
+  # * _encoding_ : The encoding of the stream given as the first argument.  
+  #   Default value: Encoding.default_external
+  # == Returns:
+  # * An Array of Hash : Each hash stands for a line of the io or the file.
   def load(io_or_string, options = {})
     encoding_opt = options.delete :encoding
     encoding =
@@ -24,10 +62,20 @@ module LTSV
     end
   end
 
-  def dump(object)
-    raise ArgumentError, "dump should take an argument of hash" unless object.kind_of? Hash
+  # Dumping the value given into a new String.
+  # Each special character will be escaped with backslash('\'), and the expression should be contained in a single line.
+  #
+  # == Arguments:
+  # * _value_: a target to dump. It should respond to :to_hash.
+  # == Returns:
+  # * A LTSV String
+  def dump(value)
+    raise ArgumentError, "dump should take an argument of hash" unless
+      value.respond_to? :to_hash
 
-    object.inject('') do |s, kv|
+    hash = value.to_hash
+
+    hash.inject('') do |s, kv|
       s << "\t" if s.bytesize > 0
 
       (k, v) = kv
