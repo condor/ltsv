@@ -42,12 +42,22 @@ describe LTSV do
           [{:label1 => 'value1', :label2 => 'value\\nvalue'},
            {:label3 => 'value3', :label4 => 'value\\rvalue'},
            {:label5 => 'value5', :label6 => 'value\\tvalue'},
-           {:label7 => 'value7', :label8 => 'value\\\\value'}] 
+           {:label7 => 'value7', :label8 => 'value\\\\value'},
+           {:label9 => 'value9', :label10 => nil, :label11 => 'value11'}] 
       end
     end
   end
 
   describe :load do
+    specify 'can load labeled tab separated values from file' do
+      stream = File.open("#{File.dirname(__FILE__)}/test.ltsv")
+      LTSV.load(stream).should ==
+          [{:label1 => 'value1', :label2 => 'value\\nvalue'},
+           {:label3 => 'value3', :label4 => 'value\\rvalue'},
+           {:label5 => 'value5', :label6 => 'value\\tvalue'},
+           {:label7 => 'value7', :label8 => 'value\\\\value'},
+           {:label9 => 'value9', :label10 => nil, :label11 => 'value11'}] 
+    end
   end
 
   describe :dump do
