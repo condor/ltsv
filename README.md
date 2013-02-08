@@ -60,6 +60,14 @@ Current limitation: parsed string should be in one line. If you include any spec
 
 Dumped objects should respond to :to_hash.
 
+### Author and Contributors
+
+* Author
+    * Naoto "Kevin" IMAI TOYODA <condor1226@github.com>
+
+* Contributors
+    * Naoto SHINGAKI <https://github.com/naoto/>
+
 ## Contributing
 
 1. Fork it
