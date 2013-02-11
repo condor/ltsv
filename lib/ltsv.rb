@@ -55,9 +55,9 @@ module LTSV
 
     case io_or_string
     when String
-      File.open(io_or_string, "r:#{encoding}"){|f|parse_io(f)}
+      File.open(io_or_string, "r:#{encoding}"){|f|parse_io(f, options)}
     when IO
-      parse_io(io)
+      parse_io(io_or_string, options)
     end
   end
 
@@ -95,9 +95,14 @@ module LTSV
 
     string.split("\t").inject({}) do |h, i|
       (key, value) = i.split(':', 2)
+      next unless key
       key = key.to_sym if symbolize_keys
       unescape!(value)
-      h[key] = value.empty? ? nil : value
+      h[key] = case value
+           when nil then nil
+           when '' then nil
+           else value
+           end
       h
     end
   end
