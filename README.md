@@ -31,7 +31,7 @@ In addition, if you manage gems with bundler, you should add the statement below
 
     # parse string
     string = "label1:value1\tlabel2:value2"
-    values = LTSV.parse(string) # => {:label1 => "value1", :label2 => "value2"}
+    values = LTSV.parse(string) # => [{:label1 => "value1", :label2 => "value2"}]
 
     # parse via stream
     # content: as below
