@@ -4,7 +4,7 @@
 #
 #
 module LTSV
-  VERSION = "0.0.3"
+  VERSION = "0.1.0"
 
   # Parsing given stream or string.
   # If you specified a stream as the first argument,
