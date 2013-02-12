@@ -42,8 +42,6 @@ In addition, if you manage gems with bundler, you should add the statement below
     # => [{:label1_1 => "value1_2", :label1_2 => "value1_2"},
     #     {:label2_1 => "value2_2", :label2_2 => "value2_2"}]
 
-Current limitation: parsed string should be in one line. If you include any special chars that may affect to the processing( "\r", "\n", "\t", "\\"), you should properly escape it with backslash.
-
 ### loading LTSV file
 
     # parse via path
