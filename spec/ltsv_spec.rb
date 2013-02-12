@@ -4,35 +4,41 @@ describe LTSV do
 
   describe :parse do
     context 'String argument' do
-      it 'can parse labeled tab separated values into hash' do
+      it 'can parse labeled tab separated values into a hash in an array' do
         line = "label1:value1\tlabel2:value2"
-        LTSV.parse(line).should == {:label1 => 'value1', :label2 => 'value2'}
+        LTSV.parse(line).should == [{:label1 => 'value1', :label2 => 'value2'}]
+      end
+
+      it 'can parse multiline labeled tab separated values into hashes in an array' do
+        line = "label1:value1\tlabel2:value2\nlabel1:value3\tlabel2:value4"
+        LTSV.parse(line).should ==
+          [{:label1 => 'value1', :label2 => 'value2'}, {:label1 => 'value3', :label2 => 'value4'}]
       end
 
       it 'can parse the value that contains escape sequences' do
 
         LTSV.parse("label1:value1\tlabel2:value\\nvalue").should ==
-          {:label1 => 'value1', :label2 => "value\nvalue"}
+          [{:label1 => 'value1', :label2 => "value\nvalue"}]
 
         LTSV.parse("label1:value1\tlabel2:value\\rvalue").should ==
-          {:label1 => 'value1', :label2 => "value\rvalue"}
+          [{:label1 => 'value1', :label2 => "value\rvalue"}]
 
         LTSV.parse("label1:value1\tlabel2:value\\tvalue").should ==
-          {:label1 => 'value1', :label2 => "value\tvalue"}
+          [{:label1 => 'value1', :label2 => "value\tvalue"}]
 
         LTSV.parse("label1:value1\tlabel2:value\\\\value").should ==
-          {:label1 => 'value1', :label2 => "value\\value"}
+          [{:label1 => 'value1', :label2 => "value\\value"}]
       end
 
       it 'parses the value as-is when the backslash with a following ordinal character' do
 
         LTSV.parse("label1:value1\tlabel2:value\\avalue").should ==
-          {:label1 => 'value1', :label2 => "value\\avalue"}
+          [{:label1 => 'value1', :label2 => "value\\avalue"}]
       end
 
       it 'parses the empty value field as nil' do
         LTSV.parse("label1:\tlabel2:value2").should ==
-          {:label1 => nil, :label2 => 'value2'}
+          [{:label1 => nil, :label2 => 'value2'}]
       end
     end
 
