@@ -61,7 +61,7 @@ Dumped objects should respond to :to_hash.
 ### Author and Contributors
 
 * Author
-  * Naoto "Kevin" IMAI TOYODA <condor1226@github.com>
+  * Naoto "Kevin" IMAI TOYODA <https://github.com/condor/>
 
 * Contributors
   * Naoto SHINGAKI <https://github.com/naoto/>
