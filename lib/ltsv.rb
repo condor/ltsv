@@ -4,7 +4,7 @@
 #
 #
 module LTSV
-  VERSION = "0.1.0"
+  VERSION = "0.1.1"
 
   # Parsing given stream or string.
   # If you specified a stream as the first argument,
@@ -65,14 +65,14 @@ module LTSV
   # Each special character will be escaped with backslash('\'), and the expression should be contained in a single line.
   #
   # == Arguments:
-  # * _value_: a target to dump. It should respond to :to_hash.
+  # * _value_: a target to dump. It should respond to :to_hash, or :to_h(only when RUBY_VERSION >= '2.0').
   # == Returns:
   # * A LTSV String
   def dump(value)
     raise ArgumentError, "dump should take an argument of hash" unless
-      value.respond_to? :to_hash
+      hash_available?(value)
 
-    hash = value.to_hash
+    hash = as_hash(value)
 
     hash.inject('') do |s, kv|
       s << "\t" if s.bytesize > 0
@@ -141,9 +141,31 @@ module LTSV
     value
   end
 
-  module_function :load, :parse, :dump, :parse_io, :parse_string, :parse_line, :unescape!, :escape
+  if RUBY_VERSION < "2.0"
+    def hash_available?(value)
+      value.respond_to? :to_hash
+    end
+
+    def as_hash(value)
+      value.to_hash
+    end
+  else
+    def hash_available?(value)
+      value.respond_to?(:to_h) || value.respond_to?(:to_hash)
+    end
+
+    def as_hash
+      begin
+        value.to_h
+      rescue NoMethodError
+        value.to_hash
+      end
+    end
+  end
+
+  module_function :load, :parse, :dump, :parse_io, :parse_string, :parse_line, :unescape!, :escape, :as_hash, :hash_available?
 
   class <<self
-    private :parse_io, :parse_string, :unescape!, :escape
+    private :parse_io, :parse_string, :unescape!, :escape, :as_hash, :hash_available?
   end
 end
