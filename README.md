@@ -1,4 +1,4 @@
-# Ltsv
+# LTSV
 
 LTSV: A Parser / Dumper for Labelled Tab-Separated Values (LTSV)
 
@@ -69,6 +69,9 @@ Dumped objects should respond to :to_hash.
   * Masato Ikeda <https://github.com/a2ikm>
 
 ### History
+
+* 2013/02/xx 0.1.1 
+Add the apllication to the newly added 'to_h' method.
 
 * 2013/02/12 0.1.0  
 Thanks to Masato Ikeda.  
