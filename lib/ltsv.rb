@@ -83,17 +83,7 @@ module LTSV
     end
   end
 
-  private
-
-  def parse_io(io, options)#:nodoc:
-    io.map{|l|parse_line l.chomp, options}
-  end
-
-  def parse_string(string, options)#:nodoc:
-    string.chomp.split($/).map{|l|parse_line l, options}
-  end
-
-  def parse_line(line, options)#:nodoc:
+  def parse_line(line, options={})#:nodoc:
     symbolize_keys = options.delete(:symbolize_keys)
     symbolize_keys = true if symbolize_keys.nil?
 
@@ -109,6 +99,16 @@ module LTSV
            end
       h
     end
+  end
+
+  private
+
+  def parse_io(io, options)#:nodoc:
+    io.map{|l|parse_line l.chomp, options}
+  end
+
+  def parse_string(string, options)#:nodoc:
+    string.chomp.split($/).map{|l|parse_line l, options}
   end
 
   def unescape!(string)#:nodoc:
