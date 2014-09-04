@@ -45,7 +45,7 @@ In addition, if you manage gems with bundler, you should add the statement below
 ### loading LTSV file
 
     # parse via path
-    values = LTSV.parse("some_path.ltsv")
+    values = LTSV.load("some_path.ltsv")
 
     # parse via stream
     stream = File.open("some_file.ltsv", "r")
