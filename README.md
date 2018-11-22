@@ -67,6 +67,9 @@ Dumped objects should respond to :to_hash.
   * Naoto SHINGAKI <https://github.com/naoto/>
   * Chezou <https://github.com/chezou>
   * Masato Ikeda <https://github.com/a2ikm>
+  * Satoshi "Moris" Tagomori <https://github.com/tagomoris>
+  * sasaki takeru <https://github.com/takeru>
+  * Ryo Nakamura <https://github.com/r7kamura>
 
 ### History
 
