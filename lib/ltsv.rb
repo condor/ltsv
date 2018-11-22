@@ -129,13 +129,14 @@ module LTSV
   end
 
   def escape(string)#:nodoc:
-    value = string.kind_of?(String) ? string.dup : string.to_s
-
-    value
-      .gsub("\\", "\\\\")
-      .gsub("\n", "\\n")
-      .gsub("\r", "\\r")
-      .gsub("\t", "\\t")
+    # Duplication is desirable because the return value of to_s may be frozen.
+    # Even if not, the mutation of the argument is rude.
+    string.to_s.dup.tap do |value|
+      value.gsub!("\\", "\\\\")
+      value.gsub!("\n", "\\n")
+      value.gsub!("\r", "\\r")
+      value.gsub!("\t", "\\t")
+    end
   end
 
   def hashify(value) #:nodoc:
