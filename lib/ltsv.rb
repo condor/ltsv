@@ -133,12 +133,11 @@ module LTSV
   def escape(string)#:nodoc:
     value = string.kind_of?(String) ? string.dup : string.to_s
 
-    value.gsub!("\\", "\\\\")
-    value.gsub!("\n", "\\n")
-    value.gsub!("\r", "\\r")
-    value.gsub!("\t", "\\t")
-
     value
+      .gsub("\\", "\\\\")
+      .gsub("\n", "\\n")
+      .gsub("\r", "\\r")
+      .gsub("\t", "\\t")
   end
 
   module_function :load, :parse, :dump, :parse_io, :parse_string, :parse_line, :unescape!, :escape
