@@ -66,14 +66,11 @@ module LTSV
   # Each special character will be escaped with backslash('\'), and the expression should be contained in a single line.
   #
   # == Arguments:
-  # * _value_: a target to dump. It should respond to :to_hash.
+  # * _value_: a target to dump. It should respond to :to_h or :to_hash
   # == Returns:
   # * A LTSV String
   def dump(value)
-    raise ArgumentError, "dump should take an argument of hash" unless
-      value.respond_to? :to_hash
-
-    hash = value.to_hash
+    hash = hashify(value)
 
     hash.inject(''.dup) do |s, kv|
       s << "\t" if s.bytesize > 0
@@ -141,9 +138,17 @@ module LTSV
       .gsub("\t", "\\t")
   end
 
-  module_function :load, :parse, :dump, :parse_io, :parse_string, :parse_line, :unescape!, :escape
+  def hashify(value) #:nodoc:
+    # Optimized for the most cases only: respond_to? might be heavy.
+    value.to_h
+  rescue NoMethodError
+    raise ArgumentError, "hash conversion of #{value.inspect} failed" unless value.respond_to?(:to_hash)
+    value.to_hash
+  end
+
+  module_function :load, :parse, :dump, :parse_io, :parse_string, :parse_line, :unescape!, :escape, :hashify
 
   class <<self
-    private :parse_io, :parse_string, :unescape!, :escape
+    private :parse_io, :parse_string, :unescape!, :escape, :hashify
   end
 end
