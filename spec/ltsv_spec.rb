@@ -100,8 +100,22 @@ RSpec.describe LTSV do
       expect(LTSV.dump(target)).to eq "label:value"
     end
 
+    specify 'should not fail when object to dump responds to :to_h' do
+      target = Object.new
+      target.instance_eval do
+        def to_h
+          {:label => 'value'}
+        end
+      end
+      expect(LTSV.dump(target)).to eq "label:value"
+    end
+
     specify 'fails when object to dump does not respond to :to_hash' do
       expect(lambda{LTSV.dump(Object.new)}).to raise_exception(ArgumentError)
+    end
+
+    specify 'breaking change: LTSV.dump(nil) should return the empty string' do
+      expect(LTSV.dump(nil)).to eq ''
     end
 
     context 'when given Hash includes a value that returns a frozen String' do
