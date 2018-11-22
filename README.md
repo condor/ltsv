@@ -70,18 +70,7 @@ Dumped objects should respond to :to_hash.
 
 ### History
 
-* 2013/02/12 0.1.0  
-Thanks to Masato Ikeda.  
-parse(String) method now accepts multi-line string and returns an Array of Hash. for single line String, use the new parse_line method.
-* 2013/02/11 0.0.3  
-Thanks to Chezou.
-  * Added the specs for load() method.
-  * Fixed the bug when handling empty keys or values.
-* 2013/02/08 0.0.2
-Bug Fix for parse_io() internal method, which affects the behaviour when parse() method receives an IO instance for the first argument.  
-Thanks to Naoto Shingaki.
-* 2013/02/07 0.0.1
-First Release.
+See ReleaseNote.md.
 
 ## Contributing
 
