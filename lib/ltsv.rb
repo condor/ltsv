@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # = ltsv - A parser / dumper for Labelled Tab-Separated Values(LTSV)
 #
 # Copyright (C) 2013 TOYODA Naoto.
