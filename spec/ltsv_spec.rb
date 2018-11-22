@@ -97,5 +97,15 @@ describe LTSV do
     specify 'fails when object to dump does not respond to :to_hash' do
       lambda{LTSV.dump(Object.new)}.should raise_exception(ArgumentError)
     end
+
+    context 'when given Hash includes a value that returns a frozen String' do
+      let(:hash) do
+        { label: double(to_s: "value".freeze) }
+      end
+
+      it 'does not fail' do
+        LTSV.dump(hash).should == 'label:value'
+      end
+    end
   end
 end
