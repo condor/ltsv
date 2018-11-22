@@ -75,7 +75,7 @@ module LTSV
 
     hash = value.to_hash
 
-    hash.inject('') do |s, kv|
+    hash.inject(''.dup) do |s, kv|
       s << "\t" if s.bytesize > 0
 
       (k, v) = kv
